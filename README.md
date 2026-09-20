@@ -35,7 +35,7 @@ At the backend level, API error response should follow an established structure 
 Field breakdown:
 
 - `code`: An enum that we will use to display the appropriate localized text to the user.
-- `message`: An English description intended strictly for developer debugging.
+- `message`: An English description intended strictly for developer debugging. We should never display this to user.
 - `details`: An optional object containing dynamic values. This allows the frontend to interpolate specific variables directly into the translated string.
 - `traceId`: A unique request identifier used to track the error within our backend logs and monitoring systems.
 
