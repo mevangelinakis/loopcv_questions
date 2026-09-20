@@ -114,7 +114,7 @@ Based on the answers, we determine our approach:
 - **If the client should not have access**: We audit our implementation to locate where user permissions are failing and fix the missing checks.
 - **If the behavior is incorrect**: We trace the data flow and execution steps to identify the root cause. A key part of this step is isolating exactly where the problem originates, whether it is a frontend issue, a backend issue, or both. When we successfully identify the issue we then proceed to implement the necessary fixes.
 
-If the issue can't be reliably reproduced or tracked, the process becomes more challenging. In such cases, we need to make assumptions about what might be going wrong and attempt to resolve the issue using the steps above.
+If the issue can't be reliably reproduced or traced, the process becomes more challenging. In such cases, we need to make assumptions about what might be going wrong and attempt to resolve the issue using the steps above.
 
 After implementing the necessary changes, we perform the following checks:
 
