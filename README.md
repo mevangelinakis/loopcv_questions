@@ -88,7 +88,7 @@ export function getLocalizedErrorMessage(apiPayload) {
 
 In the `getLocalizedErrorMessage()` function, we return a fallback error message (`errors.GENERIC_ERROR`) in case the error code is undefined, missing from the payload, or doesn't exist in our translation dictionary.
 
-This guarantees that the user always sees a localized message in the event of an unhandled error.
+This guarantees that the user always sees a localized message in the event of an unknown error.
 
 ---
 
