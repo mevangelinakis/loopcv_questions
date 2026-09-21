@@ -28,7 +28,6 @@ At the backend level, API error response should follow an established structure 
     "details": {
       "attemptsRemaining": 2
     },
-    "traceId": "req_9f82c401"
   }
 }
 ```
@@ -37,7 +36,6 @@ Field breakdown:
 - `code`: An enum that we will use to display the appropriate localized text to the user.
 - `message`: An English description intended strictly for developer debugging. We should never display this to user.
 - `details`: An optional object containing dynamic values. This allows the frontend to interpolate specific variables directly into the translated string.
-- `traceId`: A unique request identifier used to track the error within our backend logs and monitoring systems.
 
 ##### 2. How does the frontend map that to the correct translated message?
 
@@ -112,7 +110,7 @@ Based on the answers, we determine our approach:
 
 - **If the behavior is correct**: We consider whether UI/UX improvements are needed to make the intended functionality clearer to the client.
 - **If the client should not have access**: We audit our implementation to locate where user permissions are failing and fix the missing checks.
-- **If the behavior is incorrect**: We trace the data flow and execution steps to identify the root cause. A key part of this step is isolating exactly where the problem originates, whether it is a frontend issue, a backend issue, or both. When we successfully identify the issue we then proceed to implement the necessary fixes.
+- **If the behavior is incorrect**: We first analyze any error information or stack traces captured while reproducing the issue. Using this as a starting point, we track the data flow and execution steps across the entire stack, leveraging frontend debugging tools and our backend logging and tracing mechanisms. A key part of this step is isolating exactly where the problem originates, whether it is a frontend issue, a backend issue, or both. When we successfully identify the root cause, we then proceed to implement the necessary fixes.
 
 If the issue can't be reliably reproduced or traced, the process becomes more challenging. In such cases, we need to make assumptions about what might be going wrong and attempt to resolve the issue using the steps above.
 
