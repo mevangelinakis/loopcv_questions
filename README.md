@@ -155,6 +155,6 @@ After implementing the necessary changes, we perform the following checks:
 - We investigate whether the issue exists in other parts of the application that share this functionality and apply the fix globally if necessary.
 - We verify that our updates do not negatively impact performance or introduce new bugs into other areas of the application.
 
-Once all changes and verifications are complete, we follow the company's standard deployment pipeline (code review, deployment and QA in the staging environment, deployment and QA in production).
+Once all changes and verifications are complete, we follow the company's standard deployment pipeline (code review, deployment and QA in the staging environment, deployment and QA in production environment).
 
 After verifying the resolution in production, we notify the client and provide all relevant details. In all cases, an issue is only considered "done" once we receive confirmation from the client that everything is working properly.
