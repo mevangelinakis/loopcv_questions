@@ -1,5 +1,9 @@
 # Loopcv questions
 
+[1. Multi-language error handling](#1-multi-language-error-handling)  
+[2. Diagnosing a slow API request](#2-diagnosing-a-slow-api-request)  
+[3. Handling an important client's task](#3-handling-an-important-clients-task)
+
 ### 1. Multi-language error handling
 
 Our platform supports multiple languages. When the backend API returns an error, we need to show a translated, user-friendly message on the frontend — regardless of the user's selected language.
@@ -89,6 +93,37 @@ export function getLocalizedErrorMessage(apiPayload) {
 In the `getLocalizedErrorMessage()` function, we return a fallback error message (`errors.GENERIC_ERROR`) in case the error code is undefined, missing from the payload, or doesn't exist in our translation dictionary.
 
 This guarantees that the user always sees a localized message in the event of an unknown error.
+
+---
+
+### 2. Diagnosing a slow API request
+
+Users report that a specific API request is slow. How would you diagnose the cause?
+
+- What mechanisms would you put in place to detect slow requests
+- How would you narrow down where the time is being spent (DB, external services, app code, network)?
+
+#### Answer
+
+The proper approach to diagnosing a slow API is to have tracking tools already in place before the user reports the issue. Instead of guessing, we trace the exact journey of the request from the moment it reaches our server down to the database. This allows us to know exactly where the process slowed down.
+
+##### 1. What mechanisms would you put in place to detect slow requests?
+
+To catch performance issues proactively, we implement the following mechanisms:
+- **Performance Monitoring**: We set up monitoring tools at the entry point of our backend to automatically record how long every request takes. We do this to establish a baseline of our normal speed and to keep a historical record of system health.
+- **Percentile Tracking**: We configure our dashboards and alerts to track p95 and p99 response times. We do this in order to find the extreme cases where requests take the longest time, which can missed if we only look at average speeds.
+- **Centralized Logging**: We make sure all our backend services send their logs to one central place in a structured format like JSON. Most importantly, we create a unique ID for every request at the entry point of our system. This ID is passed along through every service, database query, and outside call, allowing us to connect all the logs together and see the complete lifecycle of a single request.
+
+##### 2. How would you narrow down where the time is being spent (DB, external services, app code, network)?
+
+When a slow request is identified, we use a structured approach to isolate the root cause. Using the unique ID mentioned above, we track the request as it travels through our code, the database, and outside services to see exactly how much time was spent at each stop.
+
+Using this visual timeline, we analyze the layers in the following order:
+
+- **Network versus Application**: First, we compare the total time the user waited against the time our server actually spent working. If the total wait was long but our application finished its job instantly, we know the delay is happening over the network. If our application also took a long time, we know the delay is inside our system and we move to the next step.
+- **External Services**: Next, we check the timeline for calls made to outside services like a payment processor or email provider. We look at how long these specific calls took to complete. If an outside service is taking too long to respond, we know the issue is external and the bottleneck is not in our own code.
+- **Database**: If outside services are fast, we check if fetching data is the cause. We look at the exact database queries on the timeline and analyze their execution time. We do this to evaluate the overall efficiency of our data retrieval and determine if interacting with the database is creating the bottleneck.
+- **Application Code**: Finally, if the network, outside tools, and database are all fast, we know the delay is happening in our own logic. To prove this, we check the processor and memory usage of the server during the slow timeframe. We do this to figure out exactly which function is doing too much heavy processing and maxing out the resources of the server.
 
 ---
 
