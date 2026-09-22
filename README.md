@@ -110,7 +110,7 @@ The proper approach to diagnosing a slow API is to have tracking tools already i
 ##### 1. What mechanisms would you put in place to detect slow requests?
 
 To catch performance issues proactively, we implement the following mechanisms:
-- **Performance Monitoring**: We set up monitoring tools at the entry point of our backend to automatically record how long every request takes. We do this to establish a baseline of our normal speed and to keep a historical record of system health.
+- **Performance Monitoring**: We set up monitoring tools at the entry point of our backend to automatically record how long every request takes and whether it succeeds or fails. We do this to establish a baseline of our normal speed and keep a historical record of system health. Based on this, we can set up automated alerts for specific issues, such as a sudden spike in failed requests or a service going completely offline.
 - **Percentile Tracking**: We configure our dashboards and alerts to track p95 and p99 response times. We do this in order to find the extreme cases where requests take the longest time, which can missed if we only look at average speeds.
 - **Centralized Logging**: We make sure all our backend services send their logs to one central place in a structured format like JSON. Most importantly, we create a unique ID for every request at the entry point of our system. This ID is passed along through every service, database query, and outside call, allowing us to connect all the logs together and see the complete lifecycle of a single request.
 
